@@ -1,0 +1,71 @@
+<h1>Listado de Héroes</h1>
+<hr>
+
+<div class="row text-end">
+  <div class="col">
+    <button class="btn btn-primary" routerLink="/heroe/nuevo">
+      <i class="fa fa-plus"></i>
+      Agregar
+    </button>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col">
+    <table class="table table-striped animate__animated animate__fadeIn faster" *ngIf="!loading && heroes.length > 0">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Poder</th>
+          <th scope="col">Vivo</th>
+          <th scope="col">Tool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--<tr *ngFor="let heroe of heroes; let i = index" [routerLink]="['/heroe', heroe.key]" class="puntero">-->
+        <!-- Utilizo el pipe de angular para mostrar los keys del arreglo de heroes-->
+        <tr *ngFor="let heroe of heroes | keyvalue; let i = index">
+          <th scope="row">{{ i + 1 }} </th>
+          <td>{{heroe.value.nombre}}</td>
+          <td>{{heroe.value.poder}}</td>
+          <td>
+            <label *ngIf="heroe.value.vivo" class="btn btn-success">Vivo</label>
+            <label *ngIf="!heroe.value.vivo" class="btn btn-danger">Muerto</label>
+          </td>
+          <td>
+              <button type="button" class="btn btn-primary mx-2">
+                <i class="fa fa-pen" [routerLink]="['/heroe', heroe.value.id]">Modificar</i>
+              </button>
+
+              <button type="button" class="btn btn-danger mx-2">
+                <i class="fa fa-trash" (click)="eliminarHeroe( heroe, i )">Eliminar</i>
+              </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="alert-info text-center mt-3 animated fadeIn faster" *ngIf="loading">
+  <h4 class="alert-heading">Cargando</h4>
+
+  <p>
+    <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+  </p>
+
+
+  <p class="mb-0">Espere por favor...</p>
+
+
+</div>
+
+<div class="alert-warning text-center mt-3 animated fadeIn faster"  *ngIf="!loading && heroes.length === 0">
+  <h4 class="alert-heading">No hay Registros para mostrar..</h4>
+
+  <p>
+    <i class="fa fa-exclamation-alt fa-2x"></i>
+  </p>
+
+</div>
